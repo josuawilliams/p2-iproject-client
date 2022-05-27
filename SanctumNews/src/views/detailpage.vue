@@ -1,13 +1,14 @@
 <script>
 import { mapActions, mapState, mapWritableState } from 'pinia'
 import { useDataNews } from '../stores/dataNews'
+import { RouterLink } from 'vue-router'
 import { useDataComment } from '../stores/commentar'
 import Navbar from '../components/Navbar.vue'
 export default {
     data() {
         return {
             commentary: '',
-            access : localStorage.getItem('access_token'),
+            access: localStorage.getItem('access_token'),
         }
     },
     methods: {
@@ -36,7 +37,8 @@ export default {
         }
     },
     components: {
-        Navbar
+        Navbar,
+        RouterLink
     },
     computed: {
         ...mapState(useDataNews, ['dataLink']),
@@ -62,14 +64,15 @@ export default {
             <h2>{{ dataLink.title }}</h2>
             <p class="text">{{ dataLink.description }} </p>
             <a :href=dataLink.link class="continue">Continue reading</a><br><br>
-            <button v-if="this.access" type="button" @click="clickFavorite(dataLink.thumbnail, dataLink.description, dataLink.title)"
+            <button v-if="this.access" type="button"
+                @click="clickFavorite(dataLink.thumbnail, dataLink.description, dataLink.title)"
                 class="btn btn-success">ADD TO FAVORITE</button><br><br>
 
         </div>
         <div class="cl">&nbsp;</div>
     </div>
 
-    <div v-if="this.access" class="container mt-5">
+    <div class="container mt-5">
         <div class="d-flex justify-content-center row">
             <div class="col-md-8">
                 <div class="d-flex flex-column comment-section">
@@ -78,7 +81,7 @@ export default {
                         <div class="d-flex flex-row user-info">
 
                             <div class="d-flex flex-column justify-content-start ml-2">
-                               <b><span class="d-block font-weight-bold name">{{ data.User.username }}</span></b>
+                                <b><span class="d-block font-weight-bold name">{{ data.User.username }}</span></b>
                                 <span class="date text-black-50">{{ formatDate(data.createdAt) }}</span>
                             </div>
                         </div>
@@ -96,10 +99,13 @@ export default {
                     </textarea>
                         </div>
 
-                        <div class="mt-2 text-right">
-                            <button @click="clickComment" class="btn btn-primary btn-sm shadow-none" type="button">Post
+                        <div  class="mt-2 text-right">
+                            <button @click="clickComment" v-if="this.access" class="btn btn-primary btn-sm shadow-none" type="button">Post
                                 comment
                             </button>
+                            <RouterLink v-if="!this.access" @click="clickComment" to='/login'  class="btn btn-primary btn-sm shadow-none" type="button">
+                                Login To Comment 
+                            </RouterLink>
                         </div>
                     </div>
                 </div>

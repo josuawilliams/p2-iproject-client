@@ -17,11 +17,16 @@ export default{
             this.urlForDetail = params
             this.dataURL = this.urlForDetail
             this.$router.push("/categories/detail") 
+        },
+        changeDate(input){
+            const options = {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const date = new Date(input).toLocaleDateString('id-ID', options);
+            return date
         }
     },
     computed:{
         ...mapWritableState(useDataNews ,['dataURL'])
-    }
+    },
 }   
 </script>
 
@@ -32,7 +37,8 @@ export default{
                         <img :src=data.thumbnail alt="">
                         <div  class="card-body">
                             <h2 class="card-title">{{data.title}}</h2>
-                            <p class="card-text">{{data.description}}</p>
+                            <p>{{changeDate(data.pubDate)}}</p>
+                            <h6>{{data.description}}</h6>
                         </div>
                     </div>
                     </a>
