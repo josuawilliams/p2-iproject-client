@@ -14,7 +14,7 @@ export default {
     methods: {
         ...mapActions(useDataNews, ['AddFavorite']),
         ...mapActions(useDataNews, ['Detail']),
-        ...mapActions(useDataComment, ['Comments']),
+        ...mapActions(useDataComment, ['Comments', 'getComments']),
         formatDate(date) {
             let lolo = new Date(date).toISOString().split("T")[0]
             let event = new Date(lolo);
@@ -34,6 +34,9 @@ export default {
             this.comments = this.commentary
             this.Comments()
             this.commentary = ""
+            setInterval(() => {
+                this.getComments()
+            }, 1500)
         }
     },
     components: {
@@ -48,7 +51,7 @@ export default {
     },
     created() {
         this.Detail()
-        this.Comments()
+        this.getComments()
     }
 }
 </script>
@@ -99,12 +102,14 @@ export default {
                     </textarea>
                         </div>
 
-                        <div  class="mt-2 text-right">
-                            <button @click="clickComment" v-if="this.access" class="btn btn-primary btn-sm shadow-none" type="button">Post
+                        <div class="mt-2 text-right">
+                            <button @click="clickComment" v-if="this.access" class="btn btn-primary btn-sm shadow-none"
+                                type="button">Post
                                 comment
                             </button>
-                            <RouterLink v-if="!this.access" @click="clickComment" to='/login'  class="btn btn-primary btn-sm shadow-none" type="button">
-                                Login To Comment 
+                            <RouterLink v-if="!this.access" @click="clickComment" to='/login'
+                                class="btn btn-primary btn-sm shadow-none" type="button">
+                                Login To Comment
                             </RouterLink>
                         </div>
                     </div>

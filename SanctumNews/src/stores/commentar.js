@@ -40,6 +40,21 @@ export const useDataComment = defineStore('Comment', {
                 this.comments= ""
             }
         },
+        async getComments (){
+            try {
+                const data = await axios({
+                    method: 'GET',
+                    url: base_URL + 'comments/news?url='+localStorage.getItem('url'), 
+                })
+                this.dataComment = data.data
+            } catch (error) {
+                Swal.fire(
+                    'Somenthing Wrong',
+                    `${error.response.data.message}`,
+                    'error'
+                  )
+            }
+        },
     }
   })
   
