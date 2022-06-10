@@ -2,4 +2,4 @@
 Individual Project - Client
 
 https://sanctumnews-bfb77.web.app
-pass : jojo@email.com
+
